@@ -1,0 +1,48 @@
+{
+  "name": "nodebb-plugin-import-users-csv",
+  "version": "0.4.3",
+  "description": "A starter kit for quickly creating NodeBB plugins",
+  "main": "library.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nodebb/nodebb-plugin-import-users-csv"
+  },
+  "keywords": [
+    "nodebb",
+    "plugin",
+    "import-users-csv",
+    "shell"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nodebb/nodebb-plugin-import-users-csv/issues"
+  },
+  "readmeFilename": "README.md",
+  "nbbpm": {
+    "compatibility": "^3.2.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "17.6.6",
+    "@commitlint/config-angular": "17.6.6",
+    "eslint": "8.43.0",
+    "eslint-config-nodebb": "0.2.1",
+    "eslint-plugin-import": "2.27.5",
+    "husky": "8.0.3",
+    "lint-staged": "13.2.3"
+  },
+  "dependencies": {
+    "csv-parse": "^5.4.0"
+  }
+}
