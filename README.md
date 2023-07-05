@@ -16,3 +16,16 @@ If an additional field is specified, then it will be saved into the user's hash.
 ![A view of the settings page of this plugin](./screenshots/settings.png)
 
 ![A modal containing a table displaying a list of users successfully imported in](./screenshots/modal.png)
+
+## Plugin Hooks
+
+This plugin fires off a single hook when user import has completed. To use it, listen for the `action:importUsersCSV.created` hook, e.g.
+
+``` js
+const plugins = require.main.require('./src/plugins');
+
+plugins.hooks.register('myPlugin', {
+    hook: 'action:importUsersCSV.created',
+    method: ({ uids, users }) => { ... },
+});
+```
