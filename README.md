@@ -1,12 +1,11 @@
-# Import Users via CSV Plugin for NodeBB
+# Import Users via CSV
 
-A starter kit for quickly creating NodeBB plugins. Comes with a pre-setup LESS file, server side JS script with an `action:app.load` hook, and a client-side script. Most plugins need at least one of the above, so this ought to save you some time. For a full list of hooks have a look at our [wiki page](https://github.com/NodeBB/NodeBB/wiki/Hooks), and for more information about creating plugins please visit our [documentation portal](https://docs.nodebb.org/).
+This plugin exposes a new admin page and endpoint for automatically creating users in the NodeBB instance via CSV upload.
 
-Fork this or copy it, and using your favourite text editor find and replace all instances of `nodebb-plugin-import-users-csv` with `nodebb-plugin-your-plugins-name`. Change the author's name in the LICENSE and package.json files.
+Required fields are one of `username` or `firstname` (`lastname` is automatically appended if present), and `email`.
 
-## Hello World
-
-Really simple, just edit `static/lib/main.js` and paste in `console.log('hello world');`, and that's it!
+Additional fields can be present in the CSV file, but are ignored, unless explicitly specified via the admin panel.
+If an additional field is specified, then it will be saved into the user's hash.
 
 ## Installation
 
@@ -14,4 +13,6 @@ Really simple, just edit `static/lib/main.js` and paste in `console.log('hello w
 
 ## Screenshots
 
-Don't forget to add screenshots!
+![A view of the settings page of this plugin](./screenshots/settings.png)
+
+![A modal containing a table displaying a list of users successfully imported in](./screenshots/modal.png)
