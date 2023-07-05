@@ -152,6 +152,8 @@ plugin.createUsers = async (users) => {
 		await user.updateProfile(uid, updatePayload, Object.keys(updatePayload));
 	}));
 
+	plugins.hooks.fire('action:importUsersCSV.created', { uids, users });
+
 	return uids;
 };
 
