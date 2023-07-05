@@ -29,8 +29,8 @@
 					If you've changed any settings above, please make sure you hit save <strong>first</strong> before uploading.
 				</div>
 
-				<form role="form">
-					<input type="file" name="upload" />
+				<form role="form" class="d-flex align-items-center">
+					<input type="file" name="upload" class="flex-1" />
 					<input type="hidden" value="{config.csrf_token}" name="csrf_token" />
 
 					<button type="button" class="btn btn-primary" data-action="upload">Upload</button>

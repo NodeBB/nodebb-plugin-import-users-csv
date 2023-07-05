@@ -1,38 +1,42 @@
+/* eslint-disable import/no-unresolved */
+
 'use strict';
 
-/*
-	This file is located in the "modules" block of plugin.json
-	It is only loaded when the user navigates to /admin/plugins/import-users-csv page
-	It is not bundled into the min file that is served on the first load of the page.
-*/
-define('admin/plugins/import-users-csv', ['api', 'alerts', 'settings'], function (api, alerts, settings) {
-	var ACP = {};
+import { post } from 'api';
+import { error } from 'alerts';
+import { load, save } from 'settings';
+import { alert } from 'bootbox';
+import { render } from 'benchpress';
 
-	ACP.init = function () {
-		const uploadBtn = document.querySelector('[data-action="upload"]');
-		if (uploadBtn) {
-			const uploadForm = uploadBtn.closest('form');
-			uploadBtn.addEventListener('click', async () => {
-				const data = new FormData(uploadForm);
-				await api.post('/plugins/import-users-csv', data).then((users) => {
-					console.log(users);
-				}).catch(alerts.error);
-			});
-		}
-
-		settings.load('import-users-csv', $('.import-users-csv-settings'), () => {
-			$('#additionalFields').tagsinput({
-				tagClass: 'badge bg-info',
-				confirmKeys: [13, 44],
-				trimValue: true,
-			});
+export async function init() {
+	const uploadBtn = document.querySelector('[data-action="upload"]');
+	if (uploadBtn) {
+		const uploadForm = uploadBtn.closest('form');
+		uploadBtn.addEventListener('click', async () => {
+			const data = new FormData(uploadForm);
+			await post('/plugins/import-users-csv', data).then(showImported).catch(error);
 		});
-		$('#save').on('click', saveSettings);
-	};
-
-	function saveSettings() {
-		settings.save('import-users-csv', $('.import-users-csv-settings'));
 	}
 
-	return ACP;
-});
+	load('import-users-csv', $('.import-users-csv-settings'), () => {
+		$('#additionalFields').tagsinput({
+			tagClass: 'badge bg-info',
+			confirmKeys: [13, 44],
+			trimValue: true,
+		});
+	});
+	$('#save').on('click', saveSettings);
+}
+
+function saveSettings() {
+	save('import-users-csv', $('.import-users-csv-settings'));
+}
+
+export async function showImported({ users, fields, createCount, ignoreCount }) {
+	const message = await render('admin/partials/import-users-csv/results', { users, fields, createCount, ignoreCount });
+	alert({
+		title: `User Import`,
+		size: 'lg',
+		message,
+	});
+}
