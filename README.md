@@ -9,7 +9,9 @@ If an additional field is specified, then it will be saved into the user's hash.
 
 ## Installation
 
-    npm install nodebb-plugin-import-users-csv
+There is an identically named package not under the `@nodebb` scope, be sure to install the properly scoped plugin instead:
+
+    npm install @nodebb/nodebb-plugin-import-users-csv
 
 ## Screenshots
 
