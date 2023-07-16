@@ -71,7 +71,7 @@ plugin.normalizeCSV = async (records) => {
 	const emailIndex = findIndex(headers, ['mail', 'email']);
 
 	let { additionalFields } = await meta.settings.get('import-users-csv');
-	additionalFields = additionalFields.split(',').filter(Boolean);
+	additionalFields = additionalFields ? additionalFields.split(',').filter(Boolean) : [];
 	const additionalFieldsIndex = additionalFields.map(field => findIndex(headers, [field]));
 
 	if (!emailIndex) {
