@@ -1,6 +1,6 @@
 {
   "name": "@nodebb/nodebb-plugin-import-users-csv",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A starter kit for quickly creating NodeBB plugins",
   "main": "library.js",
   "repository": {
