@@ -8,6 +8,14 @@
 					<h5 class="fw-bold tracking-tight settings-header">Settings</h5>
 
 					<div class="mb-3">
+						<label class="form-label" for="delimiter">Delimiter</label>
+						<input type="text" id="delimiter" name="delimiter" title="Delimiter" class="form-control" placeholder="," value="," />
+						<p class="form-text">
+							Default is comma-separated (<code>,</code>)
+						</p>
+					</div>
+
+					<div class="mb-3">
 						<label class="form-label" for="additionalFields">Additional Fields</label>
 						<input type="text" id="additionalFields" name="additionalFields" title="Additional Fields" class="form-control">
 						<p class="form-text">

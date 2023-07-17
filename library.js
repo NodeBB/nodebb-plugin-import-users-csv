@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+
 'use strict';
 
 // const nconf = require.main.require('nconf');
@@ -18,17 +20,10 @@ plugin.init = async (params) => {
 	const controllers = require('./lib/controllers');
 	const { router/* , middleware, controllers */ } = params;
 
-	// router.post('/import-users-csv', [(req, res, next) => {
-	// 	res.locals.isAPI = true;
-	// 	next();
-	// }, middleware.authenticateRequest, middleware.ensureLoggedIn], (req, res) => {
-	// 	console.log(req.body);
-	// });
-
 	routeHelpers.setupAdminPageRoute(router, '/admin/plugins/import-users-csv', controllers.renderAdminPage);
 };
 
-plugin.addRoutes = async ({ router, middleware, helpers }) => {
+plugin.addRoutes = async ({ router, middleware/* , helpers */ }) => {
 	const controllers = require('./lib/controllers');
 	const middlewares = [
 		middleware.ensureLoggedIn,
@@ -138,7 +133,12 @@ plugin.deduplicate = async (users) => {
 };
 
 plugin.createUsers = async (users) => {
-	const uids = await Promise.all(users.map(async ({ username }) => await user.create({ username })));
+	// Create users in sync so as to not trip the locking mechanism on username dupes
+	const uids = [];
+	for (let x = 0; x < users.length; x++) {
+		const uid = await user.create({ username: users[x].username });
+		uids.push(uid);
+	}
 
 	// Automatically confirm emails + update fields
 	await Promise.all(uids.map(async (uid, idx) => {
