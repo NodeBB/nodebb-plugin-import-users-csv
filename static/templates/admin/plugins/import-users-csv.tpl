@@ -25,6 +25,33 @@
 							<strong>N.B.</strong> This only places the data into the database, it does not expose it to the front-end.
 						</p>
 					</div>
+
+					<div class="mb-3">
+						<label class="form-label" for="behaviour">Registration behaviour</label>
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="behaviour" value="manual" id="behaviour-manual">
+							<label class="form-check-label" for="behaviour-manual">
+								Users manually reset password to gain access to account.
+							</label>
+						</div>
+						<div class="form-check mt-1">
+							<input class="form-check-input" type="radio" name="behaviour" value="auto" id="behaviour-auto" checked>
+							<label class="form-check-label" for="behaviour-auto">
+								Users automatically receive a password reset email.
+							</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="behaviour" value="password" id="behaviour-password">
+							<label class="form-check-label" for="behaviour-password">
+								Users have a common password set and are prompted to change it on login (<a href="#" data-action="behaviour-password-insecure-why">less secure</a>).
+							</label>
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label" for="password">Common Password</label>
+						<input type="text" id="password" name="password" title="Common Password" class="form-control" />
+					</div>
 				</form>
 			</div>
 

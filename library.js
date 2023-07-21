@@ -9,6 +9,7 @@ const db = require.main.require('./src/database');
 const meta = require.main.require('./src/meta');
 const plugins = require.main.require('./src/plugins');
 const user = require.main.require('./src/user');
+const batch = require.main.require('./src/batch');
 const routeHelpers = require.main.require('./src/routes/helpers');
 
 const multipart = require.main.require('connect-multiparty');
@@ -155,6 +156,42 @@ plugin.createUsers = async (users) => {
 	plugins.hooks.fire('action:importUsersCSV.created', { uids, users });
 
 	return uids;
+};
+
+plugin.executePostRegistration = async (adminUid, users) => {
+	// Post-registration behaviour
+	let { behaviour, password: newPassword } = await meta.settings.get('import-users-csv');
+	behaviour = behaviour || 'manual'; // manual behaviour === do nothing
+
+	if (behaviour === 'auto') {
+		await batch.processArray(users, async (users) => {
+			await Promise.all(users.map(async (userObj) => {
+				await user.reset.send(userObj.email);
+			}));
+		}, {
+			interval: 1000,
+			batch: 100,
+		});
+	}
+
+	if (behaviour === 'password') {
+		await batch.processArray(users, async (users) => {
+			await Promise.all(users.map(async (userObj) => {
+				console.log(`changing password for ${userObj.email}, to ${newPassword}`);
+				await user.changePassword(adminUid, {
+					uid: userObj.uid,
+					newPassword,
+				});
+			}));
+		}, {
+			interval: 1000,
+			batch: 10,
+		});
+
+		// Trigger password reset on first login
+		const uids = users.map(user => user.uid);
+		await db.setObjectField(uids.map(uid => `user:${uid}`), 'passwordExpiry', Date.now());
+	}
 };
 
 module.exports = plugin;

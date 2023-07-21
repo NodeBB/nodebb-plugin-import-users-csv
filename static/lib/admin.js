@@ -26,6 +26,13 @@ export async function init() {
 		});
 	});
 	$('#save').on('click', saveSettings);
+
+	document.querySelector('[data-action="behaviour-password-insecure-why"]').addEventListener('click', () => {
+		bootbox.alert({
+			title: 'Why is the &apos;common password&apos; behaviour less secure?',
+			message: 'We consider this import behaviour less secure as all imported users will have the same common password set. It is theoretically possible that an attacker can guess a valid email and take over a migrated account before the proper user.',
+		});
+	});
 }
 
 function saveSettings() {
