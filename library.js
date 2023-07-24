@@ -174,7 +174,7 @@ plugin.executePostRegistration = async (adminUid, users) => {
 		});
 	}
 
-	if (behaviour === 'password') {
+	if (behaviour === 'password' && newPassword) {
 		await batch.processArray(users, async (users) => {
 			await Promise.all(users.map(async (userObj) => {
 				console.log(`changing password for ${userObj.email}, to ${newPassword}`);
