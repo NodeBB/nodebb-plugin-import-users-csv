@@ -43,6 +43,6 @@
     "lint-staged": "17.0.8"
   },
   "dependencies": {
-    "csv-parse": "^5.4.0"
+    "csv-parse": "^7.0.0"
   }
 }
